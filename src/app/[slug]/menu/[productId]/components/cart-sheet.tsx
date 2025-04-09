@@ -17,7 +17,6 @@ const CartSheet = () => {
           </SheetTitle>
         </SheetHeader>
       </SheetContent>
-
     </Sheet>
    );
 }
