@@ -4,14 +4,16 @@ import { CartContext } from "../../context/cart";
 
 const CartSheet = () => {
 
-  const {isOpen, toggleCard} = useContext(CartContext);
+  const {isOpen, toggleCard, products} = useContext(CartContext);
 
   return ( 
     <Sheet open={isOpen} onOpenChange={toggleCard}>
       <SheetContent>
         <SheetHeader>
           <SheetTitle>
-            Ola
+            {products.map(product => (
+              <h1>{product.name} {product.quantity}</h1>
+            ))}
           </SheetTitle>
         </SheetHeader>
       </SheetContent>
