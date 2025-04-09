@@ -6,7 +6,10 @@ import { formatCurrency } from "@/helpers/format.currency";
 import { Prisma } from "@prisma/client";
 import { ChefHatIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import Image from "next/image";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { CartContext } from "../../context/cart";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import CartSheet from "./cart-sheet";
 
 interface ProductDetailsProps {
   product: Prisma.ProductGetPayload<{
@@ -22,6 +25,7 @@ interface ProductDetailsProps {
 }
 
 const ProductDetails = ({ product }: ProductDetailsProps) => {
+  const { toggleCard } = useContext(CartContext);
 
   const [quantity, setQuantity] = useState<number>(1);
   const handleDecreaseQuantity = () => {
@@ -36,7 +40,13 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
     setQuantity((prev) => prev + 1)
   }
 
+  {/* FUNÇÃO */}
+  const handleAddToCart = () => {
+    toggleCard();  
+  }
+
   return (
+    <>
     <div className="relative z-50 rounded-t-3xl mt-[-1.5rem] p-5 flex-auto flex flex-col overflow-hidden">
 
       <div className="flex-auto overflow-hidden">
@@ -85,7 +95,7 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
               <h4 className="font-semibold ">Ingredientes</h4>
             </div>
             <ul className=" list-disc px-5 text-muted-foreground">
-              {product.ingredients.map((ingredient) =>(
+              {product.ingredients.map((ingredient) => (
                 <li key={ingredient}>{ingredient}</li>
               ))}
             </ul>
@@ -95,9 +105,11 @@ const ProductDetails = ({ product }: ProductDetailsProps) => {
       </div>
 
       {/* ADICIONAR PEDIDO */}
-      <Button className="rounded-full mt-3 w-full">Adicionar à sacola</Button>
+      <Button className="rounded-full mt-3 w-full" onClick={handleAddToCart}>Adicionar à sacola</Button>
 
-    </div>
+    </div> 
+    <CartSheet />
+    </>
   );
 }
 
